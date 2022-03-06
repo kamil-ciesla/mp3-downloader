@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/kamil-ciesla/mp3-downloader/issues"
   },
-  "homepage": "https://github.com/kamil-ciesla/mp3-downloader#readme"
+  "homepage": "https://github.com/kamil-ciesla/mp3-downloader#readme",
+  "dependencies": {
+    "youtube-dl-exec": "^2.0.7",
+    "ytdl-core": "^4.11.0"
+  }
 }
