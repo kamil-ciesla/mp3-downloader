@@ -22,11 +22,11 @@ app.get('/', (req, res) => {
 
 //Route that handles login logic
 app.post('/convert', (req, res) => {
-	console.log(req.body.link)
-	ytdl(req.body.link).pipe(
+	console.log(req.body.data)
+	ytdl(req.body.data).pipe(
 		fs.createWriteStream("video.mp4")
 	);
-	res.send('Video is being downloaded on server! ');
+	res.send(JSON.stringify({ x: "foo" }));
 })
 
 
