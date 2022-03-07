@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/kamil-ciesla/mp3-downloader#readme",
   "dependencies": {
+    "nodemon": "^2.0.15",
     "youtube-dl-exec": "^2.0.7",
     "ytdl-core": "^4.11.0"
   }
