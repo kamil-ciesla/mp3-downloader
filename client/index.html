@@ -13,14 +13,19 @@
 		<p id="description"> This site is meant for downloading a mp3 version of a youtube video.
 			to download a video paste the link in provided space.</p> 
 		<input id="link" placeholder="Enter a link to your video">
-		<button id="link_btn">download</button>
+		<button id="linkBtn">download</button>
 
 	</body>
 	<script>
-		import { youtubedl } from "module";
-
-		function acquire_input(){
-			var str = document.getElementById("link").value;
+		function getVideoLink(){
+			return document.getElementById("link").value;
 		} 
+		document.getElementById("linkBtn").addEventListener("click", () => {
+			console.log(getVideoLink());
+			fetch('http://localhost:3000/convert')
+			.then(response => response.json())
+			.then(data => console.log(data));
+		})
+
 	</script>
 </html>
