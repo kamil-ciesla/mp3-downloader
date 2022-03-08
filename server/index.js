@@ -24,12 +24,12 @@ app.get('/', (req, res) => {
 app.post('/convert', (req, res) => {
 	console.log(req.body.data)
 	ytdl(req.body.data).pipe(
-		fs.createWriteStream("video.mp4")
+		fs.createWriteStream("./downloaded/video.mp4")
 	);
 	res.send(JSON.stringify({ x: "foo" }));
 })
 
-
+app.get('/download', (req, res) => res.download('./downloaded/video.mp4'))
 //Start your server on a specified port
 app.listen(port, () => {
 	console.log(`Server is runing on port ${port}`)
