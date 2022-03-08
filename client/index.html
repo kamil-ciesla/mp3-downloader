@@ -1,31 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="style.css" />
-		<title>mp3 download</title>
-	</head>
-	<body>
-		<h1>MP3 downloader</h1>
 
-		<p id="description"> This site is meant for downloading a mp3 version of a youtube video.
-			to download a video paste the link in provided space.</p> 
-		<input id="link" placeholder="Enter a link to your video">
-		<button id="linkBtn">download</button>
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="style.css" />
+	<title>mp3 download</title>
+</head>
 
-	</body>
-	<script>
-		function getVideoLink(){
-			return document.getElementById("link").value;
-		} 
-		document.getElementById("linkBtn").addEventListener("click", () => {
-			console.log(getVideoLink());
-			fetch('http://localhost:3000/convert')
-			.then(response => response.json())
-			.then(data => console.log(data));
-		})
+<body>
+	<h1>MP3 downloader</h1>
 
-	</script>
+	<p id="description"> This site is meant for downloading a mp3 version of a youtube video.
+		to download a video paste the link in provided space.</p>
+	<input id="link" placeholder="Enter a link to your video">
+	<button id="linkBtn">convert</button>
+
+</body>
+<script>
+	function getVideoLink() {
+		return document.getElementById("link").value;
+	}
+	document.getElementById("linkBtn").addEventListener("click", () => {
+		const videoLink = getVideoLink();
+		console.log(videoLink);
+
+		postData('http://localhost:3000/convert', { data: videoLink })
+			.then(data => {
+				console.log(data); // JSON data parsed by `data.json()` call
+			});
+
+	})
+
+
+	async function postData(url = '', data = {}) {
+		// Default options are marked with *
+		const response = await fetch(url, {
+			method: 'POST', // *GET, POST, PUT, DELETE, etc.
+			mode: 'cors', // no-cors, *cors, same-origin
+			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+			credentials: 'same-origin', // include, *same-origin, omit
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+				// 'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			redirect: 'follow', // manual, *follow, error
+			referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+			body: JSON.stringify(data) // body data type must match "Content-Type" header
+		});
+		return response.json(); // parses JSON response into native JavaScript objects
+	}
+
+
+
+</script>
+
 </html>
