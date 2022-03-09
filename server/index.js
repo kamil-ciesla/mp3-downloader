@@ -28,34 +28,23 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 })
 
-function youtubeDownload(req) {
+function downloadVideo(req) {
 	return new Promise((resolve, reject) => {
-		resolve(ytdl(req.body.data).pipe(
-			fs.createWriteStream("./downloaded/video.mp4")
-		))
+		const stream = ytdl(req.body.data);
+		stream.pipe(fs.createWriteStream(mp4Path)).on('finish', () => { resolve(stream); });
 	})
 }
 
 app.post('/convert', async (req, res) => {
-	await youtubeDownload(req);
-
+	const stream = await downloadVideo(req);
 	proc = new ffmpeg({ source: mp4Path });
+	//proc = new ffmpeg({ source: stream });
 	proc.setFfmpegPath('C:/ffmpeg/bin/ffmpeg.exe');
 	proc.saveToFile(mp3Path, (stdout, stderr) => {
 		return stderr ? console.log(stderr) : console.log('Video is being converted to mp3.');
 	}
 	)
-	res.send(JSON.stringify({ x: "foo" }));
 })
-
-function convertToMp3() {
-	proc = new ffmpeg({ source: mp4Path });
-	proc.setFfmpegPath('//');
-	proc.saveToFile(mp3Path, (stdout, stderr) => {
-		return stderr ? console.log(stderr) : console.log('Video is being converted to mp3.');
-	}
-	)
-}
 
 app.get('/download', (req, res) => res.download('./downloaded/video.mp4'))
 //Start your server on a specified port
