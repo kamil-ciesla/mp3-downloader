@@ -5,7 +5,7 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<title>mp3 download</title>
 </head>
 
@@ -15,7 +15,10 @@
 	<p id="description"> This site is meant for downloading a mp3 version of a youtube video.
 		to download a video paste the link in provided space.</p>
 	<input id="link" placeholder="Enter a link to your video">
-	<button id="linkBtn">convert</button>
+	<button id="linkBtn">
+		convert
+	</button>
+	<a href="http://localhost:3000/download">Download</a>
 
 </body>
 <script>
@@ -30,9 +33,7 @@
 			.then(data => {
 				console.log(data); // JSON data parsed by `data.json()` call
 			});
-
 	})
-
 
 	async function postData(url = '', data = {}) {
 		// Default options are marked with *
