@@ -28,15 +28,14 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 })
 
-function downloadVideo(req) {
+function downloadVideo(link) {
 	return new Promise((resolve, reject) => {
-		const stream = ytdl(req.body.data);
+		const stream = ytdl(link);
 		stream.pipe(fs.createWriteStream(mp4Path)).on('finish', () => { resolve(stream); });
 	})
 }
 
-app.post('/convert', async (req, res) => {
-	const stream = await downloadVideo(req);
+function convertToMp3() {
 	proc = new ffmpeg({ source: mp4Path });
 	//proc = new ffmpeg({ source: stream });
 	proc.setFfmpegPath('C:/ffmpeg/bin/ffmpeg.exe');
@@ -44,7 +43,13 @@ app.post('/convert', async (req, res) => {
 		return stderr ? console.log(stderr) : console.log('Video is being converted to mp3.');
 	}
 	)
+}
+app.post('/convert', async (req, res) => {
+	const link = req.body.data;
+	const stream = await downloadVideo(link);
+	convertToMp3(stream);
 })
+
 
 app.get('/download', (req, res) => res.download('./downloaded/video.mp4'))
 //Start your server on a specified port

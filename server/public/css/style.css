@@ -1,10 +1,17 @@
 body {
-    background-color: #FBFCFE;
-    font-family: sans-serif, Arial, Helvetica;
-    font-size: larger;
+	background-color: #fbfcfe;
+	font-family: sans-serif, Arial, Helvetica;
+	font-size: larger;
 }
 h1 {
-    font-family: sans-serif, Arial, Helvetica;
-    font-weight: bold;
-    text-align: center;
+	font-family: sans-serif, Arial, Helvetica;
+	font-weight: bold;
+	text-align: center;
+}
+.downloadBox {
+	width: 60%;
+	margin: auto;
+	border: 2px solid rgb(255, 145, 0);
+	border-radius: 5px;
+	padding: 2rem;
 }
