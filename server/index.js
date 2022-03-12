@@ -6,6 +6,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const ytdl = require("ytdl-core");
 const fileUpload = require('express-fileupload');
 const fs = require("fs");
+const { ReadStream } = require('tty');
 
 const port = 3000
 const mp4Path = './downloaded/video.mp4';
@@ -31,12 +32,17 @@ app.get('/', (req, res) => {
 function downloadVideo(link) {
 	return new Promise((resolve, reject) => {
 		const stream = ytdl(link);
-		stream.pipe(fs.createWriteStream(mp4Path)).on('finish', () => { resolve(stream); });
+		// Version for converting using file.
+		//stream.pipe(fs.createWriteStream(mp4Path)).on('finish', () => { resolve(stream); });
+		// Version for converting using stream.
+		stream.pipe(fs.createWriteStream(mp4Path));
+		resolve(stream);
+
 	})
 }
 
-function convertToMp3() {
-	proc = new ffmpeg({ source: mp4Path });
+function convertToMp3(stream) {
+	proc = new ffmpeg({ source: stream });
 	//proc = new ffmpeg({ source: stream });
 	proc.setFfmpegPath('C:/ffmpeg/bin/ffmpeg.exe');
 	proc.saveToFile(mp3Path, (stdout, stderr) => {
