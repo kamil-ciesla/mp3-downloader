@@ -10,29 +10,34 @@
 </head>
 
 <body>
-	<h1>MP3 downloader</h1>
-	<div class="downloadBox">
-		<p id="description"> This site is meant for downloading a mp3 version of a youtube video.
-			to download a video paste the link in provided space.</p>
-		<input id="link" placeholder="Enter a link to your video">
-		<button id="linkBtn">
-			convert
+	<h1>MP3 CONVERTER</h1>
+	<div id="convertBox" class="eventBox">
+		<input id="videoLink" class="glow" placeholder="Enter a link to your video">
+		<button id="convertBtn" class="videoLinkBtn glow">Convert
 		</button>
-		<a href="http://localhost:3000/download">Download</a>
+	</div>
+	<div id="downloadBox" class="eventBox">
+		<input id="videoTitle" class="glow" placeholder="Video Title">
+		<button id="downloadBtn" class="videoLinkBtn glow">Download
+		</button>
 	</div>
 
 </body>
 <script>
 	function getVideoLink() {
-		return document.getElementById("link").value;
+		return document.getElementById("videoLink").value;
 	}
-	document.getElementById("linkBtn").addEventListener("click", () => {
+	document.getElementById("convertBtn").addEventListener("click", () => {
 		const videoLink = getVideoLink();
-		console.log(videoLink);
+		console.log('Video link: ' + videoLink);
+		document.getElementById("downloadBox").style.display = 'flex';
+		document.getElementById("convertBox").style.display = 'none';
 
 		postData('http://localhost:3000/convert', { data: videoLink })
 			.then(data => {
 				console.log(data); // JSON data parsed by `data.json()` call
+				document.getElementById("videoTitle").value = data;
+
 			});
 	})
 

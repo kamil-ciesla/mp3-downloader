@@ -1,17 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300&display=swap");
+
+* {
+	box-sizing: border-box;
+}
 body {
 	background-color: #fbfcfe;
 	font-family: sans-serif, Arial, Helvetica;
-	font-size: larger;
+	font-size: 1.5rem;
+	background-color: rgb(7, 7, 7);
+	color: white;
+	font-family: "M PLUS Rounded 1c", sans-serif;
 }
 h1 {
-	font-family: sans-serif, Arial, Helvetica;
 	font-weight: bold;
 	text-align: center;
+	color: #ffffff;
+	text-shadow: #fff 0px 0px 5px, #fff 0px 0px 10px, #fff 0px 0px 15px,
+		#ff2d2d 0px 0px 20px, #ff2d2d 0px 0px 30px, #ff2d2d 0px 0px 40px,
+		#ff2d2d 0px 0px 50px, #ff2f2f 0px 0px 75px;
+	font-size: 3.7rem;
+	letter-spacing: 0.4rem;
 }
-.downloadBox {
-	width: 60%;
+.eventBox {
+	width: 50%;
 	margin: auto;
-	border: 2px solid rgb(255, 145, 0);
-	border-radius: 5px;
-	padding: 2rem;
+	display: flex;
+	margin-bottom: 5rem;
+}
+input {
+	width: 65%;
+	font-size: 1.2rem;
+	padding: 0.5rem;
+	border-radius: 12px 0 0 12px;
+	font-family: "M PLUS Rounded 1c", sans-serif;
+}
+.videoLinkBtn {
+	font-family: "M PLUS Rounded 1c", sans-serif;
+	font-size: 1.5rem;
+	padding: 0.5rem;
+	width: 35%;
+	border: 0;
+	background-color: #ffffff;
+	border-radius: 12px;
+	border-radius: 0 12px 12px 0;
+	margin-left: 1.2rem;
+	color: #000000;
+}
+.videoLinkBtn:active {
+	-webkit-box-shadow: 0px 0px 27px 10px rgba(255, 46, 46, 1);
+	-moz-box-shadow: 0px 0px 27px 10px rgba(255, 46, 46, 1);
+	box-shadow: 0px 0px 27px 10px rgba(255, 46, 46, 1);
+	color: red;
+}
+
+.glow {
+	border: 0.4rem solid rgb(255, 255, 255);
+	-webkit-box-shadow: 0px 0px 27px 3px rgba(255, 46, 46, 1);
+	-moz-box-shadow: 0px 0px 27px 3px rgba(255, 46, 46, 1);
+	box-shadow: 0px 0px 27px 3px rgba(255, 46, 46, 1);
+}
+#downloadBox {
+	display: none;
 }
