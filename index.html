@@ -11,14 +11,18 @@
 
 <body>
 	<h1>MP3 CONVERTER</h1>
-	<div id="convertBox" class="eventBox">
-		<input id="videoLink" class="glow" placeholder="Enter a link to your video">
+	<div id="convertForm" class="form">
+		<input name="videoLink" type="url" id="videoLink" class="glow" placeholder="Enter a link to your video"
+			required>
 		<button id="convertBtn" class="videoLinkBtn glow">Convert
 		</button>
 	</div>
-	<div id="downloadBox" class="eventBox">
+	<div id="downloadForm" class="form">
 		<input id="videoTitle" class="glow" placeholder="Video Title">
-		<button id="downloadBtn" class="videoLinkBtn glow">Download
+		<button id="downloadBtn" class="videoLinkBtn glow">
+			<a href="/download">
+				Download
+			</a>
 		</button>
 	</div>
 
@@ -27,21 +31,32 @@
 	function getVideoLink() {
 		return document.getElementById("videoLink").value;
 	}
-	document.getElementById("convertBtn").addEventListener("click", () => {
+	document.getElementById('convertBtn').addEventListener('click', () => handleConvertClick());
+
+	function handleConvertClick() {
 		const videoLink = getVideoLink();
 		console.log('Video link: ' + videoLink);
-		document.getElementById("downloadBox").style.display = 'flex';
-		document.getElementById("convertBox").style.display = 'none';
+		if (validateYtLink(videoLink)) {
+			sendLink('/convert', { data: videoLink })
+				.then(data => {
+					console.log(data); // JSON data parsed by `data.json()` call
+					document.getElementById("videoTitle").value = data;
+					toggleFormsVisibility();
+				});
+		} else {
+			console.log('ERROR: Wrong url.');
+		}
 
-		postData('http://localhost:3000/convert', { data: videoLink })
-			.then(data => {
-				console.log(data); // JSON data parsed by `data.json()` call
-				document.getElementById("videoTitle").value = data;
+	}
+	function toggleFormsVisibility() {
+		const dlForm = document.getElementById("downloadForm");
+		const convForm = document.getElementById("convertForm");
+		dlForm.style.display = window.getComputedStyle(dlForm, null).display == 'flex' ? 'none' : 'flex';
+		convForm.style.display = window.getComputedStyle(convForm, null).display == 'flex' ? 'none' : 'flex';
+	}
 
-			});
-	})
 
-	async function postData(url = '', data = {}) {
+	async function sendLink(url = '', data = {}) {
 		// Default options are marked with *
 		const response = await fetch(url, {
 			method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -58,6 +73,14 @@
 			body: JSON.stringify(data) // body data type must match "Content-Type" header
 		});
 		return response.json(); // parses JSON response into native JavaScript objects
+	}
+	function validateYtLink(link) {
+		const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+		const matches = link.match(regex);
+		if (matches) {
+			return matches[1];
+		}
+		return false;
 	}
 
 
