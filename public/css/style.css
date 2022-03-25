@@ -46,7 +46,9 @@ input {
 	margin-left: 1.2rem;
 	color: #000000;
 }
-a a:hover a:visited {
+a,
+a:hover,
+a:visited {
 	font-family: inherit;
 	color: inherit;
 	text-decoration: inherit;

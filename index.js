@@ -46,6 +46,7 @@ app.post("/convert", async (req, res) => {
 		const videoInfo = await ytdl.getBasicInfo(videoLink);
 		console.log('Basic info fetched succesfully');
 		videoTitle = videoInfo.videoDetails.title;
+
 		console.log("Downloading video: " + videoInfo.videoDetails.title);
 		// Use this if you want to pass stream to convertinf function.
 		//const stream = await downloadVideo(videoLink);
@@ -58,15 +59,25 @@ app.post("/convert", async (req, res) => {
 
 		//console.log(videoInfo.videoDetails.title);
 		res.send(JSON.stringify(videoTitle));
-	} catch {
+	} catch (error) {
 		console.log(error);
-		res.redirect("/convert/failure");
+		res.status(400).send(error.message);
 	}
 
 });
 
-app.get("/download", (req, res) => {
-	res.download(mp3Path, videoTitle);
+app.get("/download", async (req, res) => {
+	try {
+		const fileSize = await fs.stat(mp3Path);
+		if (fileSize) {
+			res.download(mp3Path, videoTitle);
+		} else {
+			throw new Error('Downloading failed.')
+		}
+	} catch (error) {
+		res.status(400).send(error.message);
+	}
+
 }
 );
 
@@ -90,10 +101,15 @@ function downloadVideo(link) {
 }
 
 function convertToMp3(source, targetFilePath) {
-	proc = new ffmpeg({ source: source });
-	proc.saveToFile(targetFilePath, (stdout, stderr) => {
-		return stderr
-			? console.log(stderr)
-			: console.log("Video is being converted to mp3.");
-	});
+	try {
+		proc = new ffmpeg({ source: source });
+		proc.saveToFile(targetFilePath, (stdout, stderr) => {
+			return stderr
+				? console.log(stderr)
+				: console.log("Video is being converted to mp3.");
+		});
+	} catch (error) {
+		console.log(error);
+	}
+
 }
